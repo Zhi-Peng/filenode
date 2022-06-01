@@ -8,6 +8,10 @@ const urls = {
   '/file/upload': { roleType: 0 },
   '/file/folder/get': { roleType: 0 },
   '/file/folder/create': { roleType: 0 },
+  '/file/folder/update': { roleType: 0 },
+  '/file/folder/delete': { roleType: 0 },
+  '/file/folder/move': { roleType: 0 },
+  '/file/folder/copy': { roleType: 0 },
   retrieve: { roleType: 0 },
   findPassword: { roleType: 0 },
   active: { roleType: 0 }

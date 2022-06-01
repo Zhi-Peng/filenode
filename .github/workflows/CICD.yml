@@ -18,7 +18,7 @@ jobs:
           password: '!w771001201'
           port: 22
           source: './build'
-          target: '/my/newfilenode1'
+          target: '/my/filenode'
       - name: ssh script
         uses: appleboy/ssh-action@master
         with:
@@ -27,8 +27,7 @@ jobs:
           password: '!w771001201'
           port: 22
           script: |
-            pm2 reload 0
-            # cd /my/newfilenode1
-            # pm2 reload ./build/app.js
+            cd /my/filenode/build
+            pm2 start ecosystem.config.js
 
 # 后台部署容器要 配置容器网关，转发到宿主机的 各种数据库，只适合微服务。大中型，单一服务不建议用 docker 容器化，数据库最大问题是 io ，容器化不一定好。并且容器访问宿主机，伤硬件.

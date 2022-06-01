@@ -1,7 +1,7 @@
 import path from 'path';
 
 const dirname = path.resolve(path.dirname('./'));
-const fileRootPath = process.env.npm_lifecycle_event === 'pre' ? '/' : dirname;
+const fileRootPath = process.env.NODE_ENV === 'pre' ? '/' : dirname;
 const uploadRootPath = path.join(fileRootPath, 'files');
 export default {
   app_name: '项目',

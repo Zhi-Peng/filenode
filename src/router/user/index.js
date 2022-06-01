@@ -6,7 +6,7 @@ const router = new Router();
 const uploadRootPath = config.file.uploadRootPath;
 
 // 注册用户
-const insertData = value => {
+const insertUser = value => {
   let _sql =
     'insert into users set email=?,password=?;';
   return sqlAction(_sql, value);
@@ -17,7 +17,7 @@ const deleteUserData = name => {
   return sqlAction(_sql);
 };
 // 查找用户
-const findUserData = email => {
+const findUser = email => {
   let _sql = `select * from users where email="${email}";`;
   return sqlAction(_sql);
 };
@@ -28,7 +28,7 @@ const updateUser = values => {
 };
 
 router.get('/', async ctx => {
-  const users = await findUserData('zhipeng');
+  const users = await findUser('zhipeng');
   users ? ctx.$util.success(ctx, users) : ctx.$util.fail(ctx, '获取用户失败');
 });
 
@@ -40,7 +40,7 @@ router.post('/', async ctx => {
   try {
     ctx.$util.validField(validField, body);
 
-    const user = (await findUserData(body.email))[0];
+    const user = (await findUser(body.email))[0];
     if (!user) {
       return ctx.$util.fail(ctx, '此账号没有注册');
     } else if (body.password !== user.password) {
@@ -66,12 +66,12 @@ router.post('/register', async ctx => {
     const code = await ctx.$util.getRedis(body.email);
 
     if (code && code === body.code) {
-      const user = (await findUserData(body.email))[0];
+      const user = (await findUser(body.email))[0];
 
       if (user && user.email === body.email) {
         return ctx.$util.fail(ctx, '此用户已注册');
       }
-      await insertData([
+      await insertUser([
         body.email,
         body.password
       ]);
@@ -99,7 +99,7 @@ router.post('/forget', async ctx => {
     const code = await ctx.$util.getRedis(body.email);
 
     if (code && code === body.code) {
-      const user = (await findUserData(body.email))[0];
+      const user = (await findUser(body.email))[0];
       if (user) {
         await updateUser([body.password, body.email])
         await ctx.$util.delRedis(body.email);

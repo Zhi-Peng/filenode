@@ -33,15 +33,15 @@ export const sqlAction = (sql, values) => {
   // PRIMARY KEY (id)
 // roleType [1-超管, 2-管理员, 3-员工, 4]
 const users = `create table if not exists users(
-  id INT NOT NULL AUTO_INCREMENT,
-  name VARCHAR(100) COMMENT '用户名',
-  email VARCHAR(50) NOT NULL COMMENT '邮箱',
-  password VARCHAR(100) NOT NULL COMMENT '密码',
-  phone VARCHAR(12) COMMENT '手机号',
-  avator VARCHAR(100) COMMENT '头像',
-  create_time datetime DEFAULT CURRENT_TIMESTAMP COMMENT '注册时间',
-  update_time datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-  PRIMARY KEY (id)
+  id int not null auto_increment,
+  name varchar(100) comment '用户名',
+  email varchar(50) not null comment '邮箱',
+  password varchar(100) not null comment '密码',
+  phone varchar(12) comment '手机号',
+  avator varchar(100) comment '头像',
+  create_time datetime default current_timestamp comment '注册时间',
+  update_time datetime default current_timestamp on update current_timestamp comment '更新时间',
+  primary key (id)
 );`;
 
 // "ext":"后缀名",
@@ -62,13 +62,15 @@ const users = `create table if not exists users(
 
   // status int(2) not null comment '文件状态',
 const files = `create table if not exists files(
-  md5 VARCHAR(32) NOT NULL COMMENT '文件的MD5',
+  md5 varchar(32) not null comment '文件的MD5',
   name varchar(512) not null comment '文件名',
-  size int(11) not null comment '文件大小(单位kb)',
+  suffix varchar(20) comment '文件后缀名',
   dirId varchar(64) comment '文件夹编号',
-  userId varchar(64) comment '用户编号',
-  create_time datetime DEFAULT CURRENT_TIMESTAMP COMMENT '注册时间',
-  update_time datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  size int(11) not null comment '文件大小(单位kb)',
+  type int not null comment '1.图片 2.文件 3.视频',
+  userId varchar(64) not null comment '用户编号',
+  path varchar(1024) not null comment '文件地址',
+  createTime datetime not null COMMENT '注册时间',
   primary key (md5)
 )
 `
@@ -80,28 +82,28 @@ const files = `create table if not exists files(
 // 当然，key未必都是外键 
 // 文件夹
 const dir = `create table if not exists dir(
-  dirId varchar(64) not null comment '文件夹编号',
-  dirName varchar(512) not null comment '文件夹名称',
-  parentDir varchar(64) default NULL comment '父文件夹',
-  dirUserId varchar(64) not null comment '创建人',
+  dirId int not null auto_increment comment '文件夹编号',
+  isDir tinyint(1) not null comment '1-是目录0-不是目录',
+  dirName varchar(20) not null comment '文件夹名称',
+  dirUserId varchar(30) not null comment '创建人',
   dirPath varchar(1024) not null comment '文件夹地址',
-  primary key (dirId),
-  key dirUserId (dirUserId)
+  createTime datetime not null comment '注册时间',
+  primary key (dirId)
 )
 `
 // 文件浏览记录
 const browseRecord = `create table if not exists browseRecord(
-  id INT NOT NULL AUTO_INCREMENT comment '浏览编号',
+  id int not null auto_increment comment '浏览编号',
   fileId varchar(64) not null comment '文件编号',
   userId varchar(64) not null comment '用户编号',
   browseTime varchar(64) not null comment '浏览时间',
-  PRIMARY KEY (id)
+  primary key (id)
 )
 `
 
 // 文件下载记录
 const downloadRecord = `create table if not exists downloadRecord(
-  id INT NOT NULL AUTO_INCREMENT comment '下载编号',
+  id int not null auto_increment comment '下载编号',
   fileId varchar(64) comment '文件编号',
   userId varchar(64) comment '用户编号',
   downloadTime varchar(64) comment '浏览时间',
@@ -129,16 +131,16 @@ const fileType = `create table if not exists fileType(
  * @param type [奖品类型]
  */
 const prize = `create table if not exists prize(
-  id INT NOT NULL AUTO_INCREMENT,
-  name VARCHAR(20) NOT NULL COMMENT '奖品名',
-  num INT NOT NULL COMMENT '奖品数量',
-  remainNum INT NOT NULL COMMENT '剩余奖品数量',
-  ratio INT NOT NULL COMMENT '中奖概率',
-  timeBegin VARCHAR(20) NOT NULL COMMENT '活动开始时间',
-  timeEnd VARCHAR(20) NOT NULL COMMENT '活动结束时间',
-  img VARCHAR(50) NOT NULL COMMENT '奖品图片',
-  type INT NOT NULL COMMENT '奖品类型',
-  PRIMARY KEY (id)
+  id int not null auto_increment,
+  name varchar(20) not null comment '奖品名',
+  num int not null comment '奖品数量',
+  remainNum int not null comment '剩余奖品数量',
+  ratio int not null comment '中奖概率',
+  timeBegin varchar(20) not null comment '活动开始时间',
+  timeEnd varchar(20) not null comment '活动结束时间',
+  img varchar(50) not null comment '奖品图片',
+  type int not null comment '奖品类型',
+  primary key (id)
 )`;
 
 

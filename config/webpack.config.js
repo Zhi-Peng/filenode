@@ -5,6 +5,7 @@
  */
 
 import path from 'path';
+import CopyWebpackPlugin from 'copy-webpack-plugin';
 
 const dependencies = {
   "crypto-js": "^4.0.0",
@@ -50,4 +51,12 @@ export default {
     minimize: true
   },
   externals: nodeExternals(),
+  plugins: [
+    new CopyWebpackPlugin({
+      patterns: [{
+        from: './ecosystem.config.js',
+        to: './'
+      }]
+    })
+  ]
 };

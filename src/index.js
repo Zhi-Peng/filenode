@@ -5,7 +5,9 @@ import router from './router/index.js';
 import util from './util/index.js';
 import config from './config/index.js';
 import verify from './router/verify.js';
+import WS from './ws.js';
 import { set, get, del } from './redis/index.js';
+import './demo.js';
 const app = new koa();
 util.setRedis = set;
 util.getRedis = get;
@@ -15,7 +17,11 @@ app.context.$config = config;
 
 app.use(koaStatic(config.file.uploadRootPath));
 app.use(koaBody({
-  multipart: true
+  multipart: true,
+  formLimit: 1 * 1024 * 1024 * 1024,
+  formidable: {
+    maxFileSize: 700 * 1024 * 1024
+  }
 }));
 app.use(async (ctx, next) => {
   // 设置跨域
@@ -42,6 +48,7 @@ app.use(router.allowedMethods());
 app.on('error', (err, ctx) => {
   console.log(err, ctx, '全局错误');
 });
-app.listen(9000, () => {
+const server = app.listen(9000, () => {
   console.log('9000 启动成功');
 });
+WS.init(server)

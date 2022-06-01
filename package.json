@@ -5,14 +5,15 @@
   "license": "MIT",
   "type": "module",
   "scripts": {
-    "dev": "nodemon index.js development",
-    "pre": "node index.js production",
+    "dev": "cross-env NODE_ENV=dev nodemon index.js",
+    "pre": "cross-env NODE_ENV=pre node index.js",
     "docker": "npx copyfiles ./Dockerfile ./build/",
     "build1": "npx webpack --config ./config/webpack.config.js --env pre",
-    "build": "webpack --config ./config/webpack.config.js --env pre"
+    "build": "webpack --config ./config/webpack.config.js"
   },
   "dependencies": {
     "crypto-js": "^4.0.0",
+    "fluent-ffmpeg": "^2.1.2",
     "jsonwebtoken": "^8.5.1",
     "koa": "^2.13.0",
     "koa-body": "^5.0.0",
@@ -25,9 +26,12 @@
     "redis": "3.1.2",
     "request": "^2.88.2",
     "request-promise": "^4.2.6",
-    "winston": "^3.3.3"
+    "winston": "^3.3.3",
+    "ws": "^8.8.0"
   },
   "devDependencies": {
+    "copy-webpack-plugin": "^11.0.0",
+    "cross-env": "^7.0.3",
     "nodemon": "^2.0.6",
     "webpack": "^5.72.1",
     "webpack-cli": "^4.9.2",
