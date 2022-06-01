@@ -1,0 +1,10 @@
+import('koa');
+import('koa-router');
+import('koa-static');
+import('mongoose');
+import('nodemailer');
+import('qiniu');
+import('redis');
+import('request');
+import('request-promise');
+import('winston');
